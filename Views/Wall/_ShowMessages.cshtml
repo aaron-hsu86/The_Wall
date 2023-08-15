@@ -1,0 +1,36 @@
+@model List<Message>
+@foreach(Message msg in Model)
+{
+    <div class="container shadow mb-3 p-3">
+        <div class="d-flex justify-content-between">
+            <h3>@msg.Poster.FirstName @msg.Poster.LastName - @msg.CreatedAt.ToString("MMMM dd, yyyy")</h3>
+        @if(msg.UserId == Context.Session.GetInt32("UserId"))
+        {
+            <form asp-controller="Wall" asp-action="DestroyMessage" asp-route-messageId=@msg.MessageId>
+                <button class="btn btn-danger">Delete Message</button>
+            </form>
+        }
+        </div>
+        <p class="ps-2 pe-2">@msg.MessageText</p>
+        @foreach(Comment c in msg.Comments)
+        {
+            <div class="d-flex justify-content-between">
+                <p class="ps-4 pe-4 fw-bold">@c.User.FirstName @c.User.LastName - @c.CreatedAt.ToString("MMMM dd, yyyy")</p>
+            @if(c.UserId == Context.Session.GetInt32("UserId"))
+            {
+                <form asp-controller="Wall" asp-action="DestroyComment" asp-route-commentId=@c.CommentId>
+                    <button class="btn btn-outline-danger">Delete Comment</button>
+                </form>
+            }
+            </div>
+            <p class="ps-5 ps-5">@c.CommentText</p>
+        }
+
+        <form asp-controller="Wall" asp-action="CreateComment" method="post" class="ps-4 pe-4">
+            <label for="comment" class="fw-bold mb-1">Post a comment</label>
+            <input type="hidden" name="UserId" value=@Context.Session.GetInt32("UserId")>
+            <input type="hidden" name="MessageId" value=@msg.MessageId>
+            @await Html.PartialAsync("_PostComment", new Comment())
+        </form>
+    </div>
+}

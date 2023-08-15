@@ -1,0 +1,9 @@
+@model Message
+<form asp-controller="Wall" asp-action="CreateMessage" method="post">
+    <input type="hidden" asp-for="UserId" value=@Context.Session.GetInt32("UserId")>
+    <textarea id="message" asp-for="MessageText" rows="3"></textarea>
+    <div class="d-flex justify-content-end gap-3">
+        <span asp-validation-for="MessageText" class="text-danger mt-2"></span>
+        <button class="btn btn-success shadow mt-2">Post</button>
+    </div>
+</form>

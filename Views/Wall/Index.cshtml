@@ -1,0 +1,8 @@
+@model List<Message>
+<div>
+    <h3>Post a message</h3>
+    @await Html.PartialAsync("_PostMessage", new Message())
+</div>
+<div>
+    @await Html.PartialAsync("_ShowMessages", Model)
+</div>

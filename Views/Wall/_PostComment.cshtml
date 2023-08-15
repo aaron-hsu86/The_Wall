@@ -1,0 +1,6 @@
+@model Comment
+<textarea id="message" asp-for="CommentText" rows="3"></textarea>
+<div class="d-flex justify-content-end gap-3">
+    <span asp-validation-for="CommentText" class="text-danger mt-2"></span>
+    <button class="btn btn-primary shadow mt-2">Comment</button>
+</div>
